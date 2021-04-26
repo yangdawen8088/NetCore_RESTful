@@ -1,0 +1,13 @@
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\bin\Debug\netcoreapp3.1\HelloWorld.exe
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\bin\Debug\netcoreapp3.1\HelloWorld.deps.json
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\bin\Debug\netcoreapp3.1\HelloWorld.runtimeconfig.json
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\bin\Debug\netcoreapp3.1\HelloWorld.runtimeconfig.dev.json
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\bin\Debug\netcoreapp3.1\HelloWorld.dll
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\bin\Debug\netcoreapp3.1\HelloWorld.pdb
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\obj\Debug\netcoreapp3.1\HelloWorld.csprojAssemblyReference.cache
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\obj\Debug\netcoreapp3.1\HelloWorld.AssemblyInfoInputs.cache
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\obj\Debug\netcoreapp3.1\HelloWorld.AssemblyInfo.cs
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\obj\Debug\netcoreapp3.1\HelloWorld.csproj.CoreCompileInputs.cache
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\obj\Debug\netcoreapp3.1\HelloWorld.dll
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\obj\Debug\netcoreapp3.1\HelloWorld.pdb
+F:\我的学习资源\Net\NetCore_RESTful\HelloWorld\HelloWorld\obj\Debug\netcoreapp3.1\HelloWorld.genruntimeconfig.cache
