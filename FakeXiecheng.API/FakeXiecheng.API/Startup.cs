@@ -1,3 +1,4 @@
+using FakeXiecheng.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,10 @@ namespace FakeXiecheng.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddTransient<ITouristRouteRepository, MockTouristRouteRepository>();
+            //services.AddTransient:每一次请求都会创建要给数据仓库，请求结束后将释放这个创建的仓库
+            //services.AddSingleton:所有服务请求时共用这一个，
+            //services.AddScoped:介于以上两种方法之间,
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
