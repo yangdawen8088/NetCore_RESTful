@@ -62,3 +62,5 @@ F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\
 F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Humanizer.dll
 F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Database\touristRoutePicturesMockData.json
+F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Database\touristRoutesMockData.json
