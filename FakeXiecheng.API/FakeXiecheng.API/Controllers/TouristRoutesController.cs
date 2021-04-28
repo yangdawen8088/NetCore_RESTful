@@ -12,11 +12,11 @@ namespace FakeXiecheng.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]//属性限定
-    public class TouistRoutesController : ControllerBase
+    public class TouristRoutesController : ControllerBase
     {
         private ITouristRouteRepository _touristRouteRepository;
         private readonly IMapper _mapper;
-        public TouistRoutesController(ITouristRouteRepository touristRouteRepository,IMapper mapper)
+        public TouristRoutesController(ITouristRouteRepository touristRouteRepository,IMapper mapper)
         {
             _touristRouteRepository = touristRouteRepository;
             _mapper = mapper;
