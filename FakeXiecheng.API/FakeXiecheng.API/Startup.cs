@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace FakeXiecheng.API
 {
@@ -26,7 +27,11 @@ namespace FakeXiecheng.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(setupAction=>{
+                setupAction.ReturnHttpNotAcceptable = true;
+                //setupAction.OutputFormatters.Add(
+                //    new XmlDataContractSerializerOutputFormatter());
+            }).AddXmlDataContractSerializerFormatters();
             //services.AddTransient<ITouristRouteRepository, MockTouristRouteRepository>();
             services.AddTransient<ITouristRouteRepository, TouristRouteRepository>();
             //services.AddTransient:每一次请求都会创建要给数据仓库，请求结束后将释放这个创建的仓库
@@ -36,7 +41,7 @@ namespace FakeXiecheng.API
                 //option.UseSqlServer(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 //option.UseSqlServer("");
                 option.UseSqlServer(Configuration["DbContext:ConnectionString"]);//这是Docker中的SQL server数据库
-                option.UseMySql(Configuration["DbContext:MySQLConnectionString"]);//这是物理机中的MySQL数据库
+                //option.UseMySql(Configuration["DbContext:MySQLConnectionString"]);//这是物理机中的MySQL数据库
             });
         }
 
