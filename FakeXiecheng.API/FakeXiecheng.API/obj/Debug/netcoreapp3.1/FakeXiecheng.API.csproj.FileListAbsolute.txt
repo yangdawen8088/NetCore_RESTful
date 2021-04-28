@@ -68,3 +68,4 @@ F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\
 F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Pomelo.JsonObject.dll
 F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\AutoMapper.dll
 F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+F:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\obj\Debug\netcoreapp3.1\FakeXiecheng.API.csprojAssemblyReference.cache
