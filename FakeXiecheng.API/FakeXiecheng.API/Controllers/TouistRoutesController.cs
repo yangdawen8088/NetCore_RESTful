@@ -1,4 +1,5 @@
-﻿using FakeXiecheng.API.Services;
+﻿using FakeXiecheng.API.DTOs;
+using FakeXiecheng.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -35,8 +36,24 @@ namespace FakeXiecheng.API.Controllers
             {
                 return NotFound($"旅游路线{touristRouteId}找不到");
             }
+            var touristRouteDto = new TouristRouteDto()
+            {
+                Id= touristRouteFromRepo.Id,
+                Title= touristRouteFromRepo.Title,
+                Description= touristRouteFromRepo.Description,
+                Price= touristRouteFromRepo.OriginalPrice*(decimal)(touristRouteFromRepo.DiscountPresent ?? 1),
+                CreateTime= touristRouteFromRepo.CreateTime,
+                UpdateTime= touristRouteFromRepo.UpdateTime,
+                Features= touristRouteFromRepo.Features,
+                Fees= touristRouteFromRepo.Fees,
+                Notes= touristRouteFromRepo.Notes,
+                Rating= touristRouteFromRepo.Rating,
+                TripType= touristRouteFromRepo.TripType.ToString(),
+                TravelDays= touristRouteFromRepo.TravelDays.ToString(),
+                DepartureCity= touristRouteFromRepo.DepartureCity.ToString()
+            };
             //OK()表示Http状态码200的请求情况
-            return Ok(touristRouteFromRepo);
+            return Ok(touristRouteDto);
         }
     }
 }
