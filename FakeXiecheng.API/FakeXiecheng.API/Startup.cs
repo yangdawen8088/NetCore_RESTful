@@ -43,6 +43,8 @@ namespace FakeXiecheng.API
                 option.UseSqlServer(Configuration["DbContext:ConnectionString"]);//这是Docker中的SQL server数据库
                 //option.UseMySql(Configuration["DbContext:MySQLConnectionString"]);//这是物理机中的MySQL数据库
             });
+            //扫描profile文件
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
