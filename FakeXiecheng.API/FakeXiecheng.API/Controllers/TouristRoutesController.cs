@@ -23,9 +23,9 @@ namespace FakeXiecheng.API.Controllers
         }
         [HttpGet]
         [HttpHead]
-        public IActionResult GerTouristRoutes()
+        public IActionResult GerTouristRoutes([FromQuery] string keyword)//FromQuery负责接收URL的参数，FromBody负责接收请求主体，即请求body中的数据
         {
-            var touristRoutesFromRepo = _touristRouteRepository.GetTouristRoutes();
+            var touristRoutesFromRepo = _touristRouteRepository.GetTouristRoutes(keyword);
             if (touristRoutesFromRepo==null|| touristRoutesFromRepo.Count()<=0)
             {
                 return NotFound("没有旅游路线");
