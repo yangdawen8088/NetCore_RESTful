@@ -5563,20 +5563,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {}
+    "C:\\Users\\v-wenyang\\.nuget\\packages\\": {},
+    "D:\\Visual Studio2019\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\我的学习资源\\Net\\NetCore_RESTful\\FakeXiecheng.API\\FakeXiecheng.API\\FakeXiecheng.API.csproj",
+      "projectUniqueName": "E:\\我的学习资源\\Net\\NetCore_RESTful\\FakeXiecheng.API\\FakeXiecheng.API\\FakeXiecheng.API.csproj",
       "projectName": "FakeXiecheng.API",
-      "projectPath": "F:\\我的学习资源\\Net\\NetCore_RESTful\\FakeXiecheng.API\\FakeXiecheng.API\\FakeXiecheng.API.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "F:\\我的学习资源\\Net\\NetCore_RESTful\\FakeXiecheng.API\\FakeXiecheng.API\\obj\\",
+      "projectPath": "E:\\我的学习资源\\Net\\NetCore_RESTful\\FakeXiecheng.API\\FakeXiecheng.API\\FakeXiecheng.API.csproj",
+      "packagesPath": "C:\\Users\\v-wenyang\\.nuget\\packages\\",
+      "outputPath": "E:\\我的学习资源\\Net\\NetCore_RESTful\\FakeXiecheng.API\\FakeXiecheng.API\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "D:\\Visual Studio2019\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\v-wenyang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -5646,7 +5654,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

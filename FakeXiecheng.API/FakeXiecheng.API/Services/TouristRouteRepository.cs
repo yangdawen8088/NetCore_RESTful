@@ -46,7 +46,7 @@ namespace FakeXiecheng.API.Services
         }
         public bool TouristRouteExists(Guid touristRouteId)
         {
-            return _context.TouristRoutes.Any(t => t.Id == touristRouteId);
+            return _context.TouristRoutes.Any(t => t.Id == touristRouteId);//判断是否存在Id的数据
         }
         public IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid touristRouteId)
         {
@@ -56,6 +56,35 @@ namespace FakeXiecheng.API.Services
         public TouristRoutePicture GetPicture(int pictureId)
         {
             return _context.touristRoutePictures.Where(p => p.Id == pictureId).FirstOrDefault();
+        }
+
+        public void AddTouristRoute(TouristRoute touristRoute)
+        {
+            if (touristRoute == null)
+            {
+                throw new ArgumentException(nameof(touristRoute));
+            }
+            _context.TouristRoutes.Add(touristRoute);
+            //_context.SaveChanges();
+        }
+        public bool Save()
+        {
+            // 返回值为 bool 类型，表示如果保存操作成功，那么为 true ，否则为 false 。
+            return (_context.SaveChanges() >= 0);
+        }
+
+        public void AddTouristRoutePicture(Guid touristRouteId, TouristRoutePicture touristRoutePicture)
+        {
+            if (touristRouteId == Guid.Empty)
+            {
+                throw new ArgumentException(nameof(touristRouteId));
+            }
+            if (touristRoutePicture == null)
+            {
+                throw new ArgumentException(nameof(touristRoutePicture));
+            }
+            touristRoutePicture.TouristRouteId = touristRouteId;
+            _context.touristRoutePictures.Add(touristRoutePicture);
         }
     }
 }

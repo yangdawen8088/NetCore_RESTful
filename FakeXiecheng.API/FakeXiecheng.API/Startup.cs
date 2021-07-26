@@ -31,7 +31,7 @@ namespace FakeXiecheng.API
                 setupAction.ReturnHttpNotAcceptable = true;
                 //setupAction.OutputFormatters.Add(
                 //    new XmlDataContractSerializerOutputFormatter());
-            }).AddXmlDataContractSerializerFormatters();
+            }).AddXmlDataContractSerializerFormatters();//设置这个过后，用户可以在请求头部中设置返回的数据格式，如json、xml等
             //services.AddTransient<ITouristRouteRepository, MockTouristRouteRepository>();
             services.AddTransient<ITouristRouteRepository, TouristRouteRepository>();
             //services.AddTransient:每一次请求都会创建要给数据仓库，请求结束后将释放这个创建的仓库

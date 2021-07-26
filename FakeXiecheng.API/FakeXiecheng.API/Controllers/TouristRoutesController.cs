@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FakeXiecheng.API.ResourceParameters;
+using FakeXiecheng.API.Moldes;
 
 namespace FakeXiecheng.API.Controllers
 {
@@ -40,7 +41,7 @@ namespace FakeXiecheng.API.Controllers
             return Ok(touristRoutesDto);
         }
         // api/touristroutes/{touristRouteId}
-        [HttpGet("{touristRouteId}")]
+        [HttpGet("{touristRouteId}", Name = "GetTouristRouteById")]
         [HttpHead]
         public IActionResult GetTouristRouteById(Guid touristRouteId)
         {
@@ -68,6 +69,15 @@ namespace FakeXiecheng.API.Controllers
             var touristRouteDto = _mapper.Map<TouristRouteDto>(touristRouteFromRepo);
             //OK()表示Http状态码200的请求情况
             return Ok(touristRouteDto);
+        }
+        [HttpPost]
+        public IActionResult CreateTouristRoute([FromBody] TouristRouteForCreationDto touristRouteForCreationDto)
+        {
+            var touristRouteModel = _mapper.Map<TouristRoute>(touristRouteForCreationDto);
+            _touristRouteRepository.AddTouristRoute(touristRouteModel);
+            _touristRouteRepository.Save();
+            var touristRouteToReture = _mapper.Map<TouristRouteDto>(touristRouteModel);
+            return CreatedAtRoute("GetTouristRouteById", new { touristRouteId = touristRouteToReture.Id }, touristRouteToReture);
         }
     }
 }

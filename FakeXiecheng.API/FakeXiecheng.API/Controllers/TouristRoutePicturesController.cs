@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FakeXiecheng.API.DTOs;
+using FakeXiecheng.API.Moldes;
 using FakeXiecheng.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,7 +16,7 @@ namespace FakeXiecheng.API.Controllers
     {
         private ITouristRouteRepository _touristRouteRepository;
         private IMapper _mapper;
-        public TouristRoutePicturesController(ITouristRouteRepository touristRouteRepository,IMapper mapper)
+        public TouristRoutePicturesController(ITouristRouteRepository touristRouteRepository, IMapper mapper)
         {
             _touristRouteRepository = touristRouteRepository ?? throw new ArgumentNullException(nameof(touristRouteRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -28,25 +29,49 @@ namespace FakeXiecheng.API.Controllers
                 return NotFound("旅游路线不存在");
             }
             var picturesFromRepo = _touristRouteRepository.GetPicturesByTouristRouteId(touristRouteId);
-            if (picturesFromRepo==null||picturesFromRepo.Count()<=0)
+            if (picturesFromRepo == null || picturesFromRepo.Count() <= 0)
             {
                 return NotFound("照片不存在");
             }
             return Ok(_mapper.Map<IEnumerable<TouristRoutePictureDto>>(picturesFromRepo));
         }
-        [HttpGet("{pictureId}")]
-        public IActionResult GetPicture(Guid touristRouteId,int pictureId)
+        [HttpGet("{pictureId}", Name = "GetPicture")]
+        public IActionResult GetPicture(Guid touristRouteId, int pictureId)
         {
             if (!_touristRouteRepository.TouristRouteExists(touristRouteId))
             {
                 return NotFound("旅游路线不存在");
             }
             var pictureFromRepo = _touristRouteRepository.GetPicture(pictureId);
-            if (pictureFromRepo==null)
+            if (pictureFromRepo == null)
             {
                 return NotFound("照片不存在");
             }
             return Ok(_mapper.Map<TouristRoutePictureDto>(pictureFromRepo));
+        }
+        [HttpPost]
+        public IActionResult CreateTouristRoutePicture(
+            [FromRoute] Guid touristRouteId
+            , [FromBody] TouristRoutePictureForCreationDto touristRoutePictureForCreationDto
+            )
+        {
+            if (!_touristRouteRepository.TouristRouteExists(touristRouteId))
+            {
+                return NotFound("旅游路线不存在");
+            }
+            var pictureModel = _mapper.Map<TouristRoutePicture>(touristRoutePictureForCreationDto);
+            _touristRouteRepository.AddTouristRoutePicture(touristRouteId, pictureModel);
+            _touristRouteRepository.Save();
+            var pictureToReturn = _mapper.Map<TouristRoutePictureDto>(pictureModel);
+            return CreatedAtAction(
+                "GetPicture"
+                , new
+                {
+                    touristRouteId = pictureModel.Id
+                    ,
+                    pictureId = pictureModel.Id
+                }
+                , pictureToReturn);
         }
     }
 }
