@@ -140,3 +140,6 @@ E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\obj\
 E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\obj\Debug\netcoreapp3.1\FakeXiecheng.API.dll
 E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\obj\Debug\netcoreapp3.1\FakeXiecheng.API.pdb
 E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\obj\Debug\netcoreapp3.1\FakeXiecheng.API.genruntimeconfig.cache
+E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
