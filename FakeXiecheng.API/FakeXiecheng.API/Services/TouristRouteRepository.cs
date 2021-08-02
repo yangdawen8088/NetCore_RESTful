@@ -67,11 +67,6 @@ namespace FakeXiecheng.API.Services
             _context.TouristRoutes.Add(touristRoute);
             //_context.SaveChanges();
         }
-        public bool Save()
-        {
-            // 返回值为 bool 类型，表示如果保存操作成功，那么为 true ，否则为 false 。
-            return (_context.SaveChanges() >= 0);
-        }
 
         public void AddTouristRoutePicture(Guid touristRouteId, TouristRoutePicture touristRoutePicture)
         {
@@ -85,6 +80,32 @@ namespace FakeXiecheng.API.Services
             }
             touristRoutePicture.TouristRouteId = touristRouteId;
             _context.touristRoutePictures.Add(touristRoutePicture);
+        }
+
+        public void DeleteTouristRoute(TouristRoute touristRoute)
+        {
+            _context.TouristRoutes.Remove(touristRoute);
+        }
+
+        public void DeleteTOuristRoutePicture(TouristRoutePicture touristRoutePicture)
+        {
+            _context.touristRoutePictures.Remove(touristRoutePicture);
+        }
+
+        public IEnumerable<TouristRoute> GetTouristRoutesByIDList(IEnumerable<Guid> ids)
+        {
+            return _context.TouristRoutes.Where(t => ids.Contains(t.Id)).ToList();
+        }
+
+        public void DeleteTOuristRoutes(IEnumerable<TouristRoute> touristRoutes)
+        {
+            _context.TouristRoutes.RemoveRange(touristRoutes);
+        }
+
+        public bool Save()
+        {
+            // 返回值为 bool 类型，表示如果保存操作成功，那么为 true ，否则为 false 。
+            return (_context.SaveChanges() >= 0);
         }
     }
 }
