@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "WHTwqKRgcUjnIYOjcjV3Es2DEEZm8jQg4DorpYrZApP/sLT4ZLMfW0iC4i3EocCmUiSPexgFNhm/EdLaUBxsuQ==",
+  "dgSpecHash": "bipkdy/UNuUXZvg0dhkiMUBKdqB+AyYkEFeWvwmufrBpD1eDrqj14doYmGHNYzQm/c9JlKGFMPWSG5h6u76X7Q==",
   "success": true,
   "projectFilePath": "E:\\我的学习资源\\Net\\NetCore_RESTful\\FakeXiecheng.API\\FakeXiecheng.API\\FakeXiecheng.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\v-wenyang\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\v-wenyang\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
     "C:\\Users\\v-wenyang\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\v-wenyang\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.5\\microsoft.aspnetcore.authentication.jwtbearer.3.1.5.nupkg.sha512",
     "C:\\Users\\v-wenyang\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.8\\microsoft.aspnetcore.jsonpatch.5.0.8.nupkg.sha512",
     "C:\\Users\\v-wenyang\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.4\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.4.nupkg.sha512",
     "C:\\Users\\v-wenyang\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

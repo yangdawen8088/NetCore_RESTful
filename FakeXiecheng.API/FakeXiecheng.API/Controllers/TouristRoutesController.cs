@@ -11,6 +11,7 @@ using FakeXiecheng.API.ResourceParameters;
 using FakeXiecheng.API.Moldes;
 using Microsoft.AspNetCore.JsonPatch;
 using FakeXiecheng.API.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FakeXiecheng.API.Controllers
 {
@@ -73,6 +74,7 @@ namespace FakeXiecheng.API.Controllers
             return Ok(touristRouteDto);
         }
         [HttpPost]
+        [Authorize]// 设置此 API 需要经过用户登陆后才能访问，
         public async Task<IActionResult> CreateTouristRoute([FromBody] TouristRouteForCreationDto touristRouteForCreationDto)
         {
             var touristRouteModel = _mapper.Map<TouristRoute>(touristRouteForCreationDto);
