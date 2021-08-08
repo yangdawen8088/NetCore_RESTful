@@ -74,7 +74,8 @@ namespace FakeXiecheng.API.Controllers
             return Ok(touristRouteDto);
         }
         [HttpPost]
-        [Authorize]// 设置此 API 需要经过用户登陆后才能访问，
+        [Authorize(AuthenticationSchemes ="Bearer")]
+        //[Authorize(Roles ="Admin")]// 设置此 API 需要经过用户登陆后才能访问，这里设置了参数，表示只用用户角色为 Admin 的用户才能访问
         public async Task<IActionResult> CreateTouristRoute([FromBody] TouristRouteForCreationDto touristRouteForCreationDto)
         {
             var touristRouteModel = _mapper.Map<TouristRoute>(touristRouteForCreationDto);
@@ -84,6 +85,8 @@ namespace FakeXiecheng.API.Controllers
             return CreatedAtRoute("GetTouristRouteById", new { touristRouteId = touristRouteToReture.Id }, touristRouteToReture);
         }
         [HttpPut("{touristRouteId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateToristRoute(
             [FromRoute] Guid touristRouteId,
             [FromBody] TouristRouteForUpdateDto touristRouteForUpdateDto)
@@ -100,6 +103,8 @@ namespace FakeXiecheng.API.Controllers
             return NoContent();// 204 状态码
         }
         [HttpPatch("{touristRouteId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> PartiallyUpdateTouristRoute(
             [FromRoute] Guid touristRouteId,
             [FromBody] JsonPatchDocument<TouristRouteForUpdateDto> patchDocument)
@@ -120,6 +125,8 @@ namespace FakeXiecheng.API.Controllers
             return NoContent();
         }
         [HttpDelete("{touristRouteId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteTouristRoute([FromRoute] Guid touristRouteId)
         {
             if (!await _touristRouteRepository.TouristRouteExistsAsync(touristRouteId))
@@ -132,6 +139,8 @@ namespace FakeXiecheng.API.Controllers
             return NoContent();
         }
         [HttpDelete("({touristIDs})")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteByIDs([ModelBinder(BinderType = typeof(ArrayModelBinder))][FromRoute] IEnumerable<Guid> touristIDs)
         {
             if (touristIDs == null)
