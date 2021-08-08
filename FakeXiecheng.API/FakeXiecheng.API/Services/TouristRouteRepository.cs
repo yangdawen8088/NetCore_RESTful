@@ -50,12 +50,12 @@ namespace FakeXiecheng.API.Services
         }
         public async Task<IEnumerable<TouristRoutePicture>> GetPicturesByTouristRouteIdAsync(Guid touristRouteId)
         {
-            return await _context.touristRoutePictures.Where(p => p.TouristRouteId == touristRouteId).ToListAsync();
+            return await _context.TouristRoutePictures.Where(p => p.TouristRouteId == touristRouteId).ToListAsync();
         }
 
         public async Task<TouristRoutePicture> GetPictureAsync(int pictureId)
         {
-            return await _context.touristRoutePictures.Where(p => p.Id == pictureId).FirstOrDefaultAsync();
+            return await _context.TouristRoutePictures.Where(p => p.Id == pictureId).FirstOrDefaultAsync();
         }
 
         public void AddTouristRoute(TouristRoute touristRoute)
@@ -79,7 +79,7 @@ namespace FakeXiecheng.API.Services
                 throw new ArgumentException(nameof(touristRoutePicture));
             }
             touristRoutePicture.TouristRouteId = touristRouteId;
-            _context.touristRoutePictures.Add(touristRoutePicture);
+            _context.TouristRoutePictures.Add(touristRoutePicture);
         }
 
         public void DeleteTouristRoute(TouristRoute touristRoute)
@@ -89,7 +89,7 @@ namespace FakeXiecheng.API.Services
 
         public void DeleteTOuristRoutePicture(TouristRoutePicture touristRoutePicture)
         {
-            _context.touristRoutePictures.Remove(touristRoutePicture);
+            _context.TouristRoutePictures.Remove(touristRoutePicture);
         }
 
         public async Task<IEnumerable<TouristRoute>> GetTouristRoutesByIDListAsync(IEnumerable<Guid> ids)
@@ -100,6 +100,45 @@ namespace FakeXiecheng.API.Services
         public void DeleteTOuristRoutes(IEnumerable<TouristRoute> touristRoutes)
         {
             _context.TouristRoutes.RemoveRange(touristRoutes);
+        }
+
+        public async Task<ShoppingCart> GetShoppingCartByUserId(string userId)
+        {
+            return await _context.ShoppingCarts
+                .Include(s => s.User)
+                .Include(s => s.ShoppingCartItems).ThenInclude(li => li.TouristRoute)
+                .Where(s => s.UserId == userId)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task CreateShoppingCart(ShoppingCart shoppingCart)
+        {
+            await _context.ShoppingCarts.AddAsync(shoppingCart);
+        }
+
+        public async Task AddShoppingCartItem(LineItem lineItem)
+        {
+            await _context.LineItems.AddAsync(lineItem);
+        }
+
+        public async Task<LineItem> GetShoppingCartItemByItemId(int lineItemId)
+        {
+            return await _context.LineItems.Where(li => li.Id == lineItemId).FirstOrDefaultAsync();
+        }
+
+        public void DeleteShoppingCartItem(LineItem lineItem)
+        {
+            _context.LineItems.Remove(lineItem);
+        }
+
+        public async Task<IEnumerable<LineItem>> GetShoppingCartsByIdListAsync(IEnumerable<int> ids)
+        {
+            return await _context.LineItems.Where(li => ids.Contains(li.Id)).ToListAsync();
+        }
+
+        public void DeleteShoppingCartItems(IEnumerable<LineItem> lineItems)
+        {
+            _context.LineItems.RemoveRange(lineItems);
         }
 
         public async Task<bool> SaveAsync()
