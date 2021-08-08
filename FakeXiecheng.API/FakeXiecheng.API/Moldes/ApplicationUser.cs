@@ -11,7 +11,10 @@ namespace FakeXiecheng.API.Moldes
         public string Address { get; set; }
         // shoppingCart
         public ShoppingCart ShoppingCart { get; set; }
-        // Orders
+        /// <summary>
+        /// 外键订单信息
+        /// </summary>
+        public ICollection<Order> Orders { get; set; }
         /// <summary>
         /// 用户角色
         /// </summary>
