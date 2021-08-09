@@ -87,6 +87,10 @@
             "microsoft.aspnetcore.jsonpatch": {
               "target": "Package",
               "version": "[5.0.8, )"
+            },
+            "stateless": {
+              "target": "Package",
+              "version": "[5.11.0, )"
             }
           },
           "imports": [

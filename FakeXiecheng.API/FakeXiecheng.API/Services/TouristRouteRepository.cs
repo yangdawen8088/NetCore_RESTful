@@ -141,6 +141,24 @@ namespace FakeXiecheng.API.Services
             _context.LineItems.RemoveRange(lineItems);
         }
 
+        public async Task AddOrderAsync(Order order)
+        {
+            await _context.Orders.AddAsync(order);
+        }
+
+        public async Task<IEnumerable<Order>> GetOrdersByUserId(string userId)
+        {
+            return await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
+        }
+
+        public async Task<Order> GetOrderById(Guid orderId)
+        {
+            return await _context.Orders
+                .Include(o => o.OrderItems).ThenInclude(oi => oi.TouristRoute)
+                .Where(o => o.Id == orderId)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<bool> SaveAsync()
         {
             // 返回值为 bool 类型，表示如果保存操作成功，那么为 true ，否则为 false 。

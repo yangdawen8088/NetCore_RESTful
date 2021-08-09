@@ -149,3 +149,4 @@ E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\
 E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
 E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+E:\我的学习资源\Net\NetCore_RESTful\FakeXiecheng.API\FakeXiecheng.API\bin\Debug\netcoreapp3.1\stateless.dll
