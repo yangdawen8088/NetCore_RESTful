@@ -90,7 +90,7 @@ namespace FakeXiecheng.API.Controllers
             }
             order.TransactionMetadata = transactionMetadata;
             await _touristRouteRepository.SaveAsync();
-            return Ok(_mapper.Map<IEnumerable<OrderDto>>(order));
+            return Ok(_mapper.Map<OrderDto>(order));
         }
     }
 }
