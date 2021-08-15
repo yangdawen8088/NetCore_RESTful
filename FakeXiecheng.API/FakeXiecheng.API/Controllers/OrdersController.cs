@@ -36,7 +36,7 @@ namespace FakeXiecheng.API.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetOrders")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetOrders(
             [FromQuery] PaginationResourceParamaters paramaters)
