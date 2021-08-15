@@ -3,6 +3,7 @@ using FakeXiecheng.API.Moldes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace FakeXiecheng.API.Services
@@ -51,6 +52,30 @@ namespace FakeXiecheng.API.Services
                 var indexOfFirstSpace = trimmedField.IndexOf(" ");
                 var propertyName = indexOfFirstSpace == -1 ? trimmedField : trimmedField.Remove(indexOfFirstSpace);
                 if (!propertyMapping.ContainsKey(propertyName))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool IsPropertiesExists<T>(string fields)
+        {
+            if (string.IsNullOrWhiteSpace(fields))
+            {
+                return true;
+            }
+            // 使用都好来分割字段字符串
+            var fieldsAfterSplit = fields.Split(",");
+            foreach (var field in fieldsAfterSplit)
+            {
+                // 去掉空格
+                var propertyName = field.Trim();
+                var propertyInfo = typeof(T).GetProperty(
+                    propertyName,
+                    BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                // 如果 T 中灭有找到对应的属性 则返回 false
+                if (propertyInfo == null)
                 {
                     return false;
                 }

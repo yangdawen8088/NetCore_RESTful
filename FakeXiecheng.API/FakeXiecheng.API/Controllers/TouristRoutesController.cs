@@ -48,6 +48,7 @@ namespace FakeXiecheng.API.Controllers
                 ResourceUrlType.PreviousPage => _urlHelper.Link("GerTouristRoutes",
                 new
                 {
+                    fields = paramaters.Fields,
                     orderBy = paramaters.OrderBy,
                     keyword = paramaters.Keyword,
                     rating = paramaters.Rating,
@@ -57,6 +58,7 @@ namespace FakeXiecheng.API.Controllers
                 ResourceUrlType.NextPage => _urlHelper.Link("GerTouristRoutes",
                 new
                 {
+                    fields = paramaters.Fields,
                     orderBy = paramaters.OrderBy,
                     keyword = paramaters.Keyword,
                     rating = paramaters.Rating,
@@ -66,6 +68,7 @@ namespace FakeXiecheng.API.Controllers
                 _ => _urlHelper.Link("GerTouristRoutes",
                 new
                 {
+                    fields = paramaters.Fields,
                     orderBy = paramaters.OrderBy,
                     keyword = paramaters.Keyword,
                     rating = paramaters.Rating,
@@ -88,6 +91,10 @@ namespace FakeXiecheng.API.Controllers
             if (!_propertyMappingService.IsMappingExists<TouristRouteDto, TouristRoute>(paramaters.OrderBy))
             {
                 return BadRequest("请输入正确的排序参数。");
+            }
+            if (!_propertyMappingService.IsPropertiesExists<TouristRouteDto>(paramaters.Fields))
+            {
+                return BadRequest("请输入正确的塑型参数。");
             }
             var touristRoutesFromRepo = await _touristRouteRepository
                 .GetTouristRoutesAsync(
@@ -122,12 +129,12 @@ namespace FakeXiecheng.API.Controllers
             };
             // 取得头部控制权 并将分页信息添加到响应请求头中
             Response.Headers.Add("x-pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
-            return Ok(touristRoutesDto);
+            return Ok(touristRoutesDto.ShapeData(paramaters.Fields));
         }
         // api/touristroutes/{touristRouteId}
         [HttpGet("{touristRouteId}", Name = "GetTouristRouteById")] // Name 的意思就是标记这个 API 的名称
         [HttpHead]
-        public async Task<IActionResult> GetTouristRouteById(Guid touristRouteId)
+        public async Task<IActionResult> GetTouristRouteById(Guid touristRouteId,string fields)
         {
             var touristRouteFromRepo = await _touristRouteRepository.GetTouristRouteAsync(touristRouteId);
             if (touristRouteFromRepo == null)
@@ -152,7 +159,7 @@ namespace FakeXiecheng.API.Controllers
             //};
             var touristRouteDto = _mapper.Map<TouristRouteDto>(touristRouteFromRepo);
             //OK()表示Http状态码200的请求情况
-            return Ok(touristRouteDto);
+            return Ok(touristRouteDto.ShapeData(fields));
         }
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
