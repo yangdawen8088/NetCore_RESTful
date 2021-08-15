@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FakeXiecheng.API.DTOs;
+using FakeXiecheng.API.ResourceParameters;
 using FakeXiecheng.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -37,12 +38,13 @@ namespace FakeXiecheng.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetOrders()
+        public async Task<IActionResult> GetOrders(
+            [FromQuery] PaginationResourceParamaters paramaters)
         {
             // 1 获取当前用户
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             // 2 使用用户 ID 来获取订单历史记录
-            var orders = await _touristRouteRepository.GetOrdersByUserId(userId);
+            var orders = await _touristRouteRepository.GetOrdersByUserId(userId, paramaters.PageSize, paramaters.PageNumber);
             return Ok(_mapper.Map<IEnumerable<OrderDto>>(orders));
         }
 
@@ -69,7 +71,7 @@ namespace FakeXiecheng.API.Controllers
             // 3 向第三方提交支付请求，等待第三方响应
             var httpClient = _httpClientFactory.CreateClient();
             string url = @"http://123.56.149.216/api/FakePaymentProcess?icode={0}&orderNumber={1}&returnFault={2}";
-            var response = await httpClient.PostAsync(string.Format(url, "B6B1DFB12AA5FB9F", order.Id, false),null);
+            var response = await httpClient.PostAsync(string.Format(url, "B6B1DFB12AA5FB9F", order.Id, false), null);
             // 4 提取支付结果，以及支付信息
             bool isApproved = false;
             string transactionMetadata = "";

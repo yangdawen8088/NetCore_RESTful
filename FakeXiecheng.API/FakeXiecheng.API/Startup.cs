@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using FakeXiecheng.API.Moldes;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace FakeXiecheng.API
 {
@@ -106,6 +107,10 @@ namespace FakeXiecheng.API
             //扫描profile文件
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient();
+            // URLHelper 服务注册
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            // 注入 PropertyMappingService 服务依赖
+            services.AddTransient<IPropertyMappingService, PropertyMappingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,10 +135,10 @@ namespace FakeXiecheng.API
                 //    throw new Exception("这是一个测试错误！");
                 //    //await context.Response.WriteAsync("Hello from test!");
                 //});
-                //endpoints.MapGet("/", async context =>
-                //{
-                //    await context.Response.WriteAsync("Hello world!");
-                //});
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Hello FakeXiecheng.API");
+                });
                 endpoints.MapControllers();
             });
         }

@@ -40,6 +40,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "5.0.5",
           "Newtonsoft.Json": "13.0.1",
           "Pomelo.EntityFrameworkCore.MySql": "3.1.1",
+          "System.Linq.Dynamic.Core": "1.1.7",
           "Microsoft.AspNetCore.JsonPatch": "5.0.8",
           "stateless": "5.11.0",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
@@ -1161,6 +1162,17 @@
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Runtime.Extensions": "4.3.0"
+        }
+      },
+      "System.Linq.Dynamic.Core/1.1.7": {
+        "runtime": {
+          "lib/netcoreapp2.1/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.1.7.0",
+            "fileVersion": "1.1.7.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp2.1/System.Linq.Dynamic.Core.dll": {}
         }
       },
       "System.Net.NameResolution/4.3.0": {
@@ -3609,6 +3621,13 @@
       "sha512": "sha512-5DbqIUpsDp0dFftytzuMmc0oeMdQwjcP/EWxsksIz/w1TcFRkZ3yKKz0PqiYFMmEwPSWw+qNVqD7PJ889JzHbw==",
       "path": "system.linq/4.3.0",
       "hashPath": "system.linq.4.3.0.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.1.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-j8R5YYCWCpwpYHUbPhZsX76lIPit2Uh13XIHHbAs1OOUSkGI+zmoaXgdTR1ClZNCXa1o0acm1cJnqSyoVhnI3w==",
+      "path": "system.linq.dynamic.core/1.1.7",
+      "hashPath": "system.linq.dynamic.core.1.1.7.nupkg.sha512"
     },
     "System.Net.NameResolution/4.3.0": {
       "type": "package",

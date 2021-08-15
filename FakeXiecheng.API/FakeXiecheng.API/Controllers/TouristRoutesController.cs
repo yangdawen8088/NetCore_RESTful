@@ -12,6 +12,8 @@ using FakeXiecheng.API.Moldes;
 using Microsoft.AspNetCore.JsonPatch;
 using FakeXiecheng.API.Helper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace FakeXiecheng.API.Controllers
 {
@@ -21,30 +23,109 @@ namespace FakeXiecheng.API.Controllers
     {
         private ITouristRouteRepository _touristRouteRepository;
         private readonly IMapper _mapper;
-        public TouristRoutesController(ITouristRouteRepository touristRouteRepository, IMapper mapper)
+        private readonly IUrlHelper _urlHelper;
+        private readonly IPropertyMappingService _propertyMappingService;
+        public TouristRoutesController(
+            ITouristRouteRepository touristRouteRepository, 
+            IMapper mapper,
+            IUrlHelperFactory urlHelperFactory,
+            IActionContextAccessor actionContextAccessor,
+            IPropertyMappingService propertyMappingService)
         {
             _touristRouteRepository = touristRouteRepository;
             _mapper = mapper;
+            _urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
+            _propertyMappingService = propertyMappingService;
+        }
+        private string GenerateTouristRouteResourceURL(
+            TouristRouteResourceParamaters paramaters,
+            PaginationResourceParamaters paramaters2,
+            ResourceUrlType type
+            )
+        {
+            return type switch
+            {
+                ResourceUrlType.PreviousPage => _urlHelper.Link("GerTouristRoutes",
+                new
+                {
+                    orderBy = paramaters.OrderBy,
+                    keyword = paramaters.Keyword,
+                    rating = paramaters.Rating,
+                    pageNumber = paramaters2.PageNumber - 1,
+                    pageSize = paramaters2.PageSize
+                }),
+                ResourceUrlType.NextPage => _urlHelper.Link("GerTouristRoutes",
+                new
+                {
+                    orderBy = paramaters.OrderBy,
+                    keyword = paramaters.Keyword,
+                    rating = paramaters.Rating,
+                    pageNumber = paramaters2.PageNumber + 1,
+                    pageSize = paramaters2.PageSize
+                }),
+                _ => _urlHelper.Link("GerTouristRoutes",
+                new
+                {
+                    orderBy = paramaters.OrderBy,
+                    keyword = paramaters.Keyword,
+                    rating = paramaters.Rating,
+                    pageNumber = paramaters2.PageNumber,
+                    pageSize = paramaters2.PageSize
+                })
+            };
         }
         // api/touristRoutes?keyword=传入的参数（关键字）
-        [HttpGet]
+        [HttpGet(Name = "GerTouristRoutes")]
         [HttpHead]
         public async Task<IActionResult> GerTouristRoutes(
-            [FromQuery] TouristRouteResourceParamaters paramaters
+            [FromQuery] TouristRouteResourceParamaters paramaters,
+            [FromQuery] PaginationResourceParamaters paramaters2
             //[FromQuery] string keyword,
             //string rating//评分条件，小于lessThan，大于largerThan，等于equalTo lessThan3，largerThan2，equalTo5
             )//FromQuery负责接收URL的参数，FromBody负责接收请求主体，即请求body中的数据
         {
-            var touristRoutesFromRepo = await _touristRouteRepository.GetTouristRoutesAsync(paramaters.Keyword, paramaters.RatingOperator, paramaters.RatingValue);
+            // 检测用户输入的排序字段输入是否正确 如果不正确 则返回 400 级别错误
+            if (!_propertyMappingService.IsMappingExists<TouristRouteDto, TouristRoute>(paramaters.OrderBy))
+            {
+                return BadRequest("请输入正确的排序参数。");
+            }
+            var touristRoutesFromRepo = await _touristRouteRepository
+                .GetTouristRoutesAsync(
+                paramaters.Keyword,
+                paramaters.RatingOperator,
+                paramaters.RatingValue,
+                paramaters2.PageSize,
+                paramaters2.PageNumber,
+                paramaters.OrderBy);
             if (touristRoutesFromRepo == null || touristRoutesFromRepo.Count() <= 0)
             {
                 return NotFound("没有旅游路线");
             }
             var touristRoutesDto = _mapper.Map<IEnumerable<TouristRouteDto>>(touristRoutesFromRepo);
+            // 处理分页数据
+            var previousPageLink = touristRoutesFromRepo.HasPreviors
+                ? GenerateTouristRouteResourceURL(paramaters, paramaters2, ResourceUrlType.PreviousPage)
+                : null;
+            var nextPageLink = touristRoutesFromRepo.HasNext
+                ? GenerateTouristRouteResourceURL(paramaters, paramaters2, ResourceUrlType.NextPage)
+                : null;
+            // 将分页信息加入到 HTTP 请求的头部信息中
+            // x-pagination
+            var paginationMetadata = new
+            {
+                previousPageLink,
+                nextPageLink,
+                totalCount = touristRoutesFromRepo.TotalCount,
+                pageSize = touristRoutesFromRepo.PageSize,
+                currentPage = touristRoutesFromRepo.CurrentPage,
+                totalPages = touristRoutesFromRepo.TotalPages
+            };
+            // 取得头部控制权 并将分页信息添加到响应请求头中
+            Response.Headers.Add("x-pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
             return Ok(touristRoutesDto);
         }
         // api/touristroutes/{touristRouteId}
-        [HttpGet("{touristRouteId}", Name = "GetTouristRouteById")]
+        [HttpGet("{touristRouteId}", Name = "GetTouristRouteById")] // Name 的意思就是标记这个 API 的名称
         [HttpHead]
         public async Task<IActionResult> GetTouristRouteById(Guid touristRouteId)
         {
@@ -74,7 +155,7 @@ namespace FakeXiecheng.API.Controllers
             return Ok(touristRouteDto);
         }
         [HttpPost]
-        [Authorize(AuthenticationSchemes ="Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         //[Authorize(Roles ="Admin")]// 设置此 API 需要经过用户登陆后才能访问，这里设置了参数，表示只用用户角色为 Admin 的用户才能访问
         public async Task<IActionResult> CreateTouristRoute([FromBody] TouristRouteForCreationDto touristRouteForCreationDto)
         {

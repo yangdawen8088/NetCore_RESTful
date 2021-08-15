@@ -1,4 +1,6 @@
 ﻿using FakeXiecheng.API.Database;
+using FakeXiecheng.API.DTOs;
+using FakeXiecheng.API.Helper;
 using FakeXiecheng.API.Moldes;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,19 +13,26 @@ namespace FakeXiecheng.API.Services
     public class TouristRouteRepository : ITouristRouteRepository
     {
         private readonly AppDbContext _context;
-        public TouristRouteRepository(AppDbContext context)
+        private readonly IPropertyMappingService _propertyMappingService;
+
+        public TouristRouteRepository(AppDbContext context, IPropertyMappingService propertyMappingService)
         {
             _context = context;
+            _propertyMappingService = propertyMappingService;
         }
+
         public async Task<TouristRoute> GetTouristRouteAsync(Guid touristRouteId)
         {
             return await _context.TouristRoutes.Include(t => t.TouristRoutePictures).FirstOrDefaultAsync(n => n.Id == touristRouteId);
         }
 
-        public async Task<IEnumerable<TouristRoute>> GetTouristRoutesAsync(
+        public async Task<PaginationList<TouristRoute>> GetTouristRoutesAsync(
             string keyword,
             string ratingOperator,
-            int? raringValue
+            int? raringValue,
+            int pageSize,
+            int pageNumber,
+            string orderBy
          )
         {
             IQueryable<TouristRoute> result = _context.TouristRoutes.Include(t => t.TouristRoutePictures);
@@ -41,8 +50,17 @@ namespace FakeXiecheng.API.Services
                     _ => result.Where(t => t.Rating == raringValue),
                 };
             }
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                //if (orderBy.ToLowerInvariant()=="originalprice")
+                //{
+                //    result = result.OrderBy(t => t.OriginalPrice);
+                //}
+                var touristRouteMappingDictionary = _propertyMappingService.GetPropertyMapping<TouristRouteDto, TouristRoute>();
+                result = result.ApplySort(orderBy, touristRouteMappingDictionary);
+            }
             //include vs join
-            return await result.ToListAsync();
+            return await PaginationList<TouristRoute>.CreateAsync(pageNumber, pageSize, result);
         }
         public async Task<bool> TouristRouteExistsAsync(Guid touristRouteId)
         {
@@ -146,9 +164,11 @@ namespace FakeXiecheng.API.Services
             await _context.Orders.AddAsync(order);
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByUserId(string userId)
+        public async Task<PaginationList<Order>> GetOrdersByUserId(string userId, int pageSize, int pageNumber)
         {
-            return await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
+            //return await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
+            IQueryable<Order> result = _context.Orders.Where(o => o.UserId == userId);
+            return await PaginationList<Order>.CreateAsync(pageNumber, pageSize, result);
         }
 
         public async Task<Order> GetOrderById(Guid orderId)
