@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Net.Http.Headers;
+using System.Dynamic;
 
 namespace FakeXiecheng.API.Controllers
 {
@@ -80,10 +81,18 @@ namespace FakeXiecheng.API.Controllers
         }
         // api/touristRoutes?keyword=传入的参数（关键字）
         // 1. application/json -> 旅游路线资源
-        // 2. application/vnd.{公司/企业名称}.hatecas+json
+        // 2. application/vnd.{公司/企业名称}.hateoas+json
         // vnd:Vendor 供应商的缩写，表示这个媒体类型是特定供应商所使用的
-        // hatecas 表示返回的响应里面要包含超媒体相关的链接
+        // hateoas 表示返回的响应里面要包含超媒体相关的链接
         // json 表示我们需要的响应输出是 json 格式
+        // 3. application/vnd.{公司/企业名称}.touristRoute.simplify+json -> 用来输入简化版的资源数据
+        // 4. application/vnd.{公司/企业名称}.touristRoute.hateoas+json -> 用来输入简化版的 hateoas 超媒体资源数据
+        [Produces(
+            "application/json",
+            "application/vnd.yangdawen.hateoas+json",
+            "application/vnd.yangdawen.touristRoute.simplify+json",
+            "application/vnd.yangdawen.touristRoute.simplify.hateoas+json"
+            )]
         [HttpGet(Name = "GerTouristRoutes")]
         [HttpHead]
         public async Task<IActionResult> GerTouristRoutes(
@@ -119,7 +128,6 @@ namespace FakeXiecheng.API.Controllers
             {
                 return NotFound("没有旅游路线");
             }
-            var touristRoutesDto = _mapper.Map<IEnumerable<TouristRouteDto>>(touristRoutesFromRepo);
             // 处理分页数据
             var previousPageLink = touristRoutesFromRepo.HasPreviors
                 ? GenerateTouristRouteResourceURL(paramaters, paramaters2, ResourceUrlType.PreviousPage)
@@ -140,8 +148,25 @@ namespace FakeXiecheng.API.Controllers
             };
             // 取得头部控制权 并将分页信息添加到响应请求头中
             Response.Headers.Add("x-pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
-            var shapedDtoList = touristRoutesDto.ShapeData(paramaters.Fields);
-            if (parsedMediatype.MediaType=="application/vnd.yangdawen.hateoas+json")// 这里企业名称建议从配置文件中获取 然后拼接起来
+            bool isHateoas = parsedMediatype.SubTypeWithoutSuffix.EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
+            var primaryMediaType = isHateoas
+                ? parsedMediatype.SubTypeWithoutSuffix.Substring(0, parsedMediatype.SubTypeWithoutSuffix.Length - 8)
+                : parsedMediatype.SubTypeWithoutSuffix;
+            //var touristRoutesDto = _mapper.Map<IEnumerable<TouristRouteDto>>(touristRoutesFromRepo);
+            //var shapedDtoList = touristRoutesDto.ShapeData(paramaters.Fields);
+            IEnumerable<object> touristRoutesDto;
+            IEnumerable<ExpandoObject> shapedDtoList;
+            if (primaryMediaType == "vnd.yangdawen.touristRoute.simplify")
+            {
+                touristRoutesDto = _mapper.Map<IEnumerable<TouristRouteSimplifyDto>>(touristRoutesFromRepo);
+                shapedDtoList = ((IEnumerable<TouristRouteSimplifyDto>)touristRoutesDto).ShapeData(paramaters.Fields);
+            }
+            else
+            {
+                touristRoutesDto = _mapper.Map<IEnumerable<TouristRouteDto>>(touristRoutesFromRepo);
+                shapedDtoList = ((IEnumerable<TouristRouteDto>)touristRoutesDto).ShapeData(paramaters.Fields);
+            }
+            if (isHateoas)// 这里企业名称建议从配置文件中获取 然后拼接起来
             {
                 var linkDto = CreateLinksForTouristRouteList(paramaters, paramaters2);
                 var shapedDtoWithLinklist = shapedDtoList.Select(t =>
